@@ -25,9 +25,9 @@ public class SMSActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms);
 
-        etText = (EditText) findViewById(R.id.etext);
-        etNumber = (EditText) findViewById(R.id.enumber);
-        etNumberSMS = (EditText) findViewById(R.id.smsno);
+        etText = (EditText) findViewById(R.id.etText);
+        etNumber = (EditText) findViewById(R.id.etNumber);
+        etNumberSMS = (EditText) findViewById(R.id.etSmsNumber);
 
         btnSend = (Button) findViewById(R.id.btnSend);
         btnSend.setOnClickListener(new View.OnClickListener() {
