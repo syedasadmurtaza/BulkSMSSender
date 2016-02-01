@@ -1,6 +1,10 @@
 package com.amstudios.bulksmssender;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +20,11 @@ import android.widget.Toast;
 public class SMSActivity extends AppCompatActivity {
 
 
-    private Button btnSend;
+    private Button btnSend,btnContact;
     private EditText etText,etNumber,etNumberSMS;
+
     int a,c,d,e;
+    static final int PICK_CONTACT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,17 @@ public class SMSActivity extends AppCompatActivity {
         etText = (EditText) findViewById(R.id.etText);
         etNumber = (EditText) findViewById(R.id.etNumber);
         etNumberSMS = (EditText) findViewById(R.id.etSmsNumber);
+        btnContact =(Button) findViewById(R.id.btnContact);
+
+        btnContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+                pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+                startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
+            }
+        });
+
 
         btnSend = (Button) findViewById(R.id.btnSend);
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +76,33 @@ public class SMSActivity extends AppCompatActivity {
 
 });
 
-
-
-
         }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_CONTACT_REQUEST) {
+
+            if (resultCode == RESULT_OK) {
+
+                Uri contactUri = data.getData();
+
+                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+
+                Cursor cursor = getContentResolver()
+                        .query(contactUri, projection, null, null, null);
+                cursor.moveToFirst();
+
+                int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String number = cursor.getString(column);
+
+                etNumber.setText(number);
+            }
+        }
+    }
 
     private boolean isEmpty(EditText text)
 

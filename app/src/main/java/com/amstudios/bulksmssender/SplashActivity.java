@@ -13,7 +13,7 @@ import android.widget.ImageView;
  */
 public class SplashActivity extends Activity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 4000;
+    private final int SPLASH_DISPLAY_LENGTH = 3000;
 
 
     @Override
@@ -21,10 +21,10 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        ImageView rotate_image =(ImageView) findViewById(R.id.splashscreen);
+        ImageView rotateimage =(ImageView) findViewById(R.id.splashscreen);
         RotateAnimation rotate = new RotateAnimation(30, 360, Animation.RELATIVE_TO_PARENT, 0.5f,  Animation.RELATIVE_TO_PARENT, 0.5f);
-        rotate.setDuration(2500);
-        rotate_image.startAnimation(rotate);
+        rotate.setDuration(1500);
+        rotateimage.startAnimation(rotate);
 
         new Handler().postDelayed(new Runnable() {
             @Override
